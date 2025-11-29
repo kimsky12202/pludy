@@ -43,11 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         if (mounted) {
-          // UserProvider에 로그인 처리 (token, email만 전달)
+          // [수정] UserProvider에 이미 받은 authToken으로 사용자 정보 설정
           await Provider.of<UserProvider>(
             context,
             listen: false,
-          ).login(authToken.token, authToken.email);
+          ).setUserFromAuthToken(authToken);
 
           if (mounted) {
             Navigator.pushReplacement(
@@ -65,11 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         if (mounted) {
-          // UserProvider에 로그인 처리 (token, email만 전달)
+          // [수정] UserProvider에 이미 받은 authToken으로 사용자 정보 설정
           await Provider.of<UserProvider>(
             context,
             listen: false,
-          ).login(authToken.token, authToken.email);
+          ).setUserFromAuthToken(authToken);
 
           if (mounted) {
             Navigator.pushReplacement(
