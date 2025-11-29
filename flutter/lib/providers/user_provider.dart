@@ -57,6 +57,20 @@ class UserProvider with ChangeNotifier {
 
   // ========== 인증 ==========
 
+  // 이미 인증된 사용자 정보 설정 (토큰 포함)
+  Future<void> setUser(int userId, String username, String email) async {
+    _userId = userId;
+    _username = username;
+    _email = email;
+    _isLoggedIn = true;
+
+    notifyListeners();
+
+    // 퀴즈 목록 로드
+    await loadQuizzes();
+    await loadReviewQuestions();
+  }
+
   Future<bool> login(String email, String password) async {
     try {
       final authToken = await _authService.login(
