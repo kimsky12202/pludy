@@ -97,8 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(32),
@@ -110,15 +113,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // 🖤 로고
+                  // 로고
                   Container(
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: colorScheme.primary,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.school, size: 50, color: Colors.white),
+                    child: Icon(Icons.school, size: 50, color: colorScheme.onPrimary),
                   ),
 
                   SizedBox(height: 32),
@@ -130,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: colorScheme.onSurface,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -142,18 +145,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.grey.shade600,
+                      color: colorScheme.secondary,
                       letterSpacing: 0.5,
                     ),
                   ),
 
                   SizedBox(height: 48),
 
-                  // 🖤 로그인/회원가입 토글
+                  // 로그인/회원가입 토글
                   Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 2),
+                      border: Border.all(color: colorScheme.primary, width: 2),
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: Stack(
@@ -169,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             widthFactor: 0.5,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: colorScheme.primary,
                                 borderRadius: BorderRadius.circular(23),
                               ),
                             ),
@@ -189,8 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontSize: 16,
                                       color:
                                           _isLogin
-                                              ? Colors.white
-                                              : Colors.black,
+                                              ? colorScheme.onPrimary
+                                              : colorScheme.onSurface,
                                     ),
                                   ),
                                 ),
@@ -208,8 +211,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontSize: 16,
                                       color:
                                           !_isLogin
-                                              ? Colors.white
-                                              : Colors.black,
+                                              ? colorScheme.onPrimary
+                                              : colorScheme.onSurface,
                                     ),
                                   ),
                                 ),
@@ -277,19 +280,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   SizedBox(height: 32),
 
-                  // 🖤 제출 버튼
+                  // 제출 버튼
                   SizedBox(
                     height: 56,
                     child: ElevatedButton(
                       onPressed: _isLoading ? null : _submit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                         ),
                         elevation: 0,
-                        disabledBackgroundColor: Colors.grey.shade300,
                       ),
                       child:
                           _isLoading
@@ -297,7 +297,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 24,
                                 width: 24,
                                 child: CircularProgressIndicator(
-                                  color: Colors.white,
+                                  color: colorScheme.onPrimary,
                                   strokeWidth: 2.5,
                                 ),
                               )
@@ -328,37 +328,40 @@ class _LoginScreenState extends State<LoginScreen> {
     TextInputType? keyboardType,
     required String? Function(String?) validator,
   }) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
-      style: TextStyle(fontSize: 16, color: Colors.black),
+      style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(color: Colors.grey.shade600, fontSize: 16),
-        prefixIcon: Icon(icon, color: Colors.black, size: 22),
+        labelStyle: TextStyle(color: colorScheme.secondary, fontSize: 16),
+        prefixIcon: Icon(icon, color: colorScheme.primary, size: 22),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
+          borderSide: BorderSide(color: colorScheme.outline, width: 1.5),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
+          borderSide: BorderSide(color: colorScheme.outline, width: 1.5),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.black, width: 2),
+          borderSide: BorderSide(color: colorScheme.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade700, width: 1.5),
+          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade900, width: 2),
+          borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
         filled: true,
-        fillColor: Colors.grey.shade50,
+        fillColor: theme.scaffoldBackgroundColor,
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       ),
       validator: validator,

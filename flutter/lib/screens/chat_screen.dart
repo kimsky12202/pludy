@@ -108,20 +108,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
-          // 🖤 헤더 (블랙 앤 화이트)
+          // 헤더
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: colorScheme.primary,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: colorScheme.shadow.withValues(alpha: 0.1),
                   offset: Offset(0, 2),
                   blurRadius: 4,
                 ),
@@ -132,7 +134,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.menu, color: Colors.white),
+                    icon: Icon(Icons.menu, color: colorScheme.onPrimary),
                     onPressed: () {},
                   ),
                   Expanded(
@@ -140,14 +142,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       'AI Chat',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: colorScheme.onPrimary,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.add_circle_outline, color: Colors.white),
+                    icon: Icon(Icons.add_circle_outline, color: colorScheme.onPrimary),
                     onPressed: () {
                       setState(() {
                         _messages.clear();
@@ -171,12 +173,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: colorScheme.primary,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               Icons.chat_bubble_outline,
-                              color: Colors.white,
+                              color: colorScheme.onPrimary,
                               size: 40,
                             ),
                           ),
@@ -186,7 +188,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: colorScheme.onSurface,
                             ),
                           ),
                           SizedBox(height: 8),
@@ -194,7 +196,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             'AI에게 설명하면서 배워보세요',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey.shade600,
+                              color: colorScheme.secondary,
                             ),
                           ),
                         ],
@@ -222,12 +224,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                   width: 36,
                                   height: 36,
                                   decoration: BoxDecoration(
-                                    color: Colors.black,
+                                    color: colorScheme.primary,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Icon(
                                     Icons.smart_toy,
-                                    color: Colors.white,
+                                    color: colorScheme.onPrimary,
                                     size: 20,
                                   ),
                                 ),
@@ -240,13 +242,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                     vertical: 12,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: isUser ? Colors.black : Colors.white,
+                                    color: isUser ? colorScheme.primary : colorScheme.surface,
                                     borderRadius: BorderRadius.circular(16),
                                     border:
                                         isUser
                                             ? null
                                             : Border.all(
-                                              color: Colors.grey.shade300,
+                                              color: colorScheme.outline,
                                               width: 1,
                                             ),
                                   ),
@@ -255,7 +257,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                     style: TextStyle(
                                       fontSize: 15,
                                       color:
-                                          isUser ? Colors.white : Colors.black,
+                                          isUser ? colorScheme.onPrimary : colorScheme.onSurface,
                                       height: 1.4,
                                     ),
                                   ),
@@ -267,7 +269,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   width: 36,
                                   height: 36,
                                   decoration: BoxDecoration(
-                                    color: Colors.grey.shade700,
+                                    color: colorScheme.secondary,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Center(
@@ -275,7 +277,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       (userProvider.username ?? 'U')[0]
                                           .toUpperCase(),
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: colorScheme.onSecondary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
                                       ),
@@ -290,14 +292,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
           ),
 
-          // 🖤 입력 영역 (오버플로우 완전 해결)
+          // 입력 영역
           Container(
             padding: EdgeInsets.fromLTRB(8, 6, 8, 6),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colorScheme.surface,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
+                  color: colorScheme.shadow.withValues(alpha: 0.05),
                   offset: Offset(0, -1),
                   blurRadius: 2,
                 ),
@@ -312,20 +314,20 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Container(
                       constraints: BoxConstraints(maxHeight: 100),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
+                        color: theme.scaffoldBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.grey.shade300,
+                          color: colorScheme.outline,
                           width: 1,
                         ),
                       ),
                       child: TextField(
                         controller: _messageController,
-                        style: TextStyle(fontSize: 14, color: Colors.black),
+                        style: TextStyle(fontSize: 14, color: colorScheme.onSurface),
                         decoration: InputDecoration(
                           hintText: '메시지를 입력하세요...',
                           hintStyle: TextStyle(
-                            color: Colors.grey.shade500,
+                            color: colorScheme.secondary,
                             fontSize: 14,
                           ),
                           border: InputBorder.none,
@@ -347,13 +349,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     decoration: BoxDecoration(
                       color:
                           _isConnected && _messageController.text.isNotEmpty
-                              ? Colors.black
-                              : Colors.grey.shade300,
+                              ? colorScheme.primary
+                              : colorScheme.outline,
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
                       icon: Icon(Icons.send, size: 18),
-                      color: Colors.white,
+                      color: colorScheme.onPrimary,
                       onPressed: _isConnected ? _sendMessage : null,
                       padding: EdgeInsets.zero,
                     ),
