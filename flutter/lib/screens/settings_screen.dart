@@ -9,9 +9,10 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final userProvider = Provider.of<UserProvider>(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final colorScheme = Theme.of(context).colorScheme;
 
     return ListView(
       padding: EdgeInsets.zero,
@@ -19,51 +20,44 @@ class SettingsScreen extends StatelessWidget {
         // 상단 프로필 영역
         UserAccountsDrawerHeader(
           decoration: BoxDecoration(
-            color:
-                colorScheme.primary == Colors.white
-                    ? Colors
-                        .grey
-                        .shade900 // 다크모드일 땐 짙은 회색 배경
-                    : Colors.black, // 라이트모드일 땐 검은 배경
+            color: colorScheme.primary,
           ),
           accountName: Text(
             userProvider.username ?? '사용자',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: Colors.white,
+              color: colorScheme.onPrimary,
             ),
           ),
           accountEmail: Text(
             userProvider.email ?? '',
-            style: TextStyle(color: Colors.white70),
+            style: TextStyle(color: colorScheme.onPrimary.withValues(alpha: 0.7)),
           ),
           currentAccountPicture: CircleAvatar(
-            backgroundColor: Colors.white,
+            backgroundColor: colorScheme.surface,
             child: Text(
               (userProvider.username ?? 'U')[0].toUpperCase(),
-              style: TextStyle(fontSize: 24, color: Colors.black),
+              style: TextStyle(fontSize: 24, color: colorScheme.primary),
             ),
           ),
         ),
 
         // 다크모드 스위치
         SwitchListTile(
-          title: Text('다크 모드'),
-          subtitle: Text('어두운 테마를 사용합니다'),
-          secondary: Icon(Icons.dark_mode),
+          title: Text('다크 모드', style: TextStyle(color: colorScheme.onSurface)),
+          subtitle: Text('어두운 테마를 사용합니다', style: TextStyle(color: colorScheme.secondary)),
+          secondary: Icon(Icons.dark_mode, color: colorScheme.onSurface),
           value: themeProvider.isDarkMode,
-          activeColor: Colors.white, // 켜졌을 때 버튼 색
-          activeTrackColor: Colors.black, // 켜졌을 때 트랙 색
           onChanged: (value) => themeProvider.toggleTheme(value),
         ),
 
-        Divider(),
+        Divider(color: colorScheme.outline),
 
         // 로그아웃
         ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('로그아웃'),
+          leading: Icon(Icons.logout, color: colorScheme.onSurface),
+          title: Text('로그아웃', style: TextStyle(color: colorScheme.onSurface)),
           onTap: () async {
             await userProvider.logout();
             Navigator.pushAndRemoveUntil(
@@ -76,8 +70,8 @@ class SettingsScreen extends StatelessWidget {
 
         // 계정 삭제
         ListTile(
-          leading: Icon(Icons.delete_forever, color: Colors.red),
-          title: Text('계정 삭제', style: TextStyle(color: Colors.red)),
+          leading: Icon(Icons.delete_forever, color: colorScheme.error),
+          title: Text('계정 삭제', style: TextStyle(color: colorScheme.error)),
           onTap: () async {
             await userProvider.deleteAccount();
             Navigator.pushAndRemoveUntil(
