@@ -112,6 +112,9 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return WillPopScope(
       onWillPop: () async {
         return await _showExitDialog();
@@ -119,8 +122,6 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.quiz.quizName),
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
           actions: [
             Center(
               child: Padding(
@@ -138,8 +139,8 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
             // 진행 바
             LinearProgressIndicator(
               value: (_currentQuestionIndex + 1) / widget.quiz.questions.length,
-              backgroundColor: Colors.grey.shade300,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              backgroundColor: colorScheme.surfaceContainerHighest,
+              valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
             ),
 
             Expanded(
@@ -153,7 +154,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                       '질문 ${_currentQuestionIndex + 1}',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey.shade600,
+                        color: colorScheme.secondary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -163,6 +164,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     SizedBox(height: 32),
@@ -182,10 +184,10 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colorScheme.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
+                    color: colorScheme.shadow.withValues(alpha: 0.12),
                     blurRadius: 10,
                     offset: Offset(0, -2),
                   ),
@@ -200,7 +202,6 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                         onPressed: _previous,
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 16),
-                          side: BorderSide(color: Colors.blue),
                         ),
                         child: Text('이전'),
                       ),
@@ -213,7 +214,6 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                     child: ElevatedButton(
                       onPressed: _canProceed() ? _next : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
                         padding: EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: Text(
@@ -221,7 +221,6 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -236,6 +235,9 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   }
 
   Widget _buildMultipleChoiceOptions() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       children:
           _currentQuestion.answers.asMap().entries.map((entry) {
@@ -252,9 +254,9 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                   width: double.infinity,
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: isSelected ? Colors.blue.shade50 : Colors.white,
+                    color: isSelected ? colorScheme.primaryContainer : colorScheme.surface,
                     border: Border.all(
-                      color: isSelected ? Colors.blue : Colors.grey.shade300,
+                      color: isSelected ? colorScheme.primary : colorScheme.outline,
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(12),
@@ -266,7 +268,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                         height: 32,
                         decoration: BoxDecoration(
                           color:
-                              isSelected ? Colors.blue : Colors.grey.shade300,
+                              isSelected ? colorScheme.primary : colorScheme.surfaceContainerHighest,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -275,8 +277,8 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                             style: TextStyle(
                               color:
                                   isSelected
-                                      ? Colors.white
-                                      : Colors.grey.shade700,
+                                      ? colorScheme.onPrimary
+                                      : colorScheme.secondary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -290,8 +292,8 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
                             fontSize: 16,
                             color:
                                 isSelected
-                                    ? Colors.blue.shade900
-                                    : Colors.black87,
+                                    ? colorScheme.onPrimaryContainer
+                                    : colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -305,14 +307,31 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   }
 
   Widget _buildShortAnswerInput() {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return TextField(
       controller: _shortAnswerController,
+      style: TextStyle(color: colorScheme.onSurface),
       decoration: InputDecoration(
         labelText: '답변을 입력하세요',
+        labelStyle: TextStyle(color: colorScheme.secondary),
         hintText: '여기에 답변을 입력하세요',
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        hintStyle: TextStyle(color: colorScheme.secondary),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.outline),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.outline),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colorScheme.primary, width: 2),
+        ),
         filled: true,
-        fillColor: Colors.grey.shade50,
+        fillColor: colorScheme.surface,
       ),
       maxLines: 3,
       onChanged: (value) {
@@ -330,20 +349,27 @@ class _QuizPlayScreenState extends State<QuizPlayScreen> {
   }
 
   Future<bool> _showExitDialog() async {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return await showDialog<bool>(
           context: context,
           builder:
               (context) => AlertDialog(
-                title: Text('퀴즈 종료'),
-                content: Text('퀴즈를 종료하시겠습니까?\n진행 상황이 저장되지 않습니다.'),
+                backgroundColor: colorScheme.surface,
+                title: Text('퀴즈 종료', style: TextStyle(color: colorScheme.onSurface)),
+                content: Text(
+                  '퀴즈를 종료하시겠습니까?\n진행 상황이 저장되지 않습니다.',
+                  style: TextStyle(color: colorScheme.onSurface),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.pop(context, false),
-                    child: Text('취소'),
+                    child: Text('취소', style: TextStyle(color: colorScheme.secondary)),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context, true),
-                    child: Text('종료', style: TextStyle(color: Colors.red)),
+                    child: Text('종료', style: TextStyle(color: colorScheme.error)),
                   ),
                 ],
               ),
