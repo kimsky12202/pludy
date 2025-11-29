@@ -100,11 +100,15 @@ class AIQuizService {
 
       // 질문 데이터 변환
       final formattedQuestions =
-          questions.map((q) {
+          questions.asMap().entries.map((entry) {
+            final index = entry.key;
+            final q = entry.value;
+
             if (q['question_type'] == 'multiple_choice') {
               return {
                 'question_text': q['question_text'],
                 'question_type': 'multiple_choice',
+                'question_order': index,  // 인덱스로 순서 설정
                 'answers':
                     (q['answers'] as List)
                         .map(
@@ -120,6 +124,7 @@ class AIQuizService {
               return {
                 'question_text': q['question_text'],
                 'question_type': 'short_answer',
+                'question_order': index,  // 인덱스로 순서 설정
                 'correct_answer': q['correct_answer'],
               };
             }
@@ -133,7 +138,7 @@ class AIQuizService {
         },
         body: jsonEncode({
           'quiz_name': quizName,
-          'user_id': userId,
+          // user_id 제거: 서버가 JWT 토큰에서 자동으로 가져옴
           'questions': formattedQuestions,
         }),
       );
