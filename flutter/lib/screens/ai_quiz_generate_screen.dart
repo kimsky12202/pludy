@@ -101,36 +101,38 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text('AI 퀴즈 생성'),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🖤 설명 (블랙 앤 화이트)
+            // 설명
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade400, width: 2),
+                border: Border.all(color: colorScheme.outline, width: 2),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.lightbulb_outline, color: Colors.black, size: 32),
+                  Icon(Icons.lightbulb_outline, color: colorScheme.primary, size: 32),
                   SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       'PDF 파일을 업로드하면\nAI가 자동으로 퀴즈를 만들어줍니다!',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.black,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -147,7 +149,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 12),
@@ -159,29 +161,20 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color:
-                        _selectedFile != null
-                            ? Colors.black
-                            : Colors.grey.shade400,
+                    color: _selectedFile != null ? colorScheme.primary : colorScheme.outline,
                     width: 2,
                   ),
                   borderRadius: BorderRadius.circular(12),
-                  color:
-                      _selectedFile != null
-                          ? Colors.grey.shade100
-                          : Colors.white,
+                  color: _selectedFile != null
+                      ? colorScheme.primaryContainer
+                      : colorScheme.surface,
                 ),
                 child: Column(
                   children: [
                     Icon(
-                      _selectedFile != null
-                          ? Icons.check_circle
-                          : Icons.upload_file,
+                      _selectedFile != null ? Icons.check_circle : Icons.upload_file,
                       size: 48,
-                      color:
-                          _selectedFile != null
-                              ? Colors.black
-                              : Colors.grey.shade600,
+                      color: _selectedFile != null ? colorScheme.primary : colorScheme.secondary,
                     ),
                     SizedBox(height: 12),
                     Text(
@@ -191,10 +184,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color:
-                            _selectedFile != null
-                                ? Colors.black
-                                : Colors.grey.shade700,
+                        color: _selectedFile != null ? colorScheme.onPrimaryContainer : colorScheme.onSurface,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -211,7 +201,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 12),
@@ -222,8 +212,8 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               max: 20,
               divisions: 17,
               label: '$_numQuestions개',
-              activeColor: Colors.black,
-              inactiveColor: Colors.grey.shade300,
+              activeColor: colorScheme.primary,
+              inactiveColor: colorScheme.outline,
               onChanged:
                   _isGenerating
                       ? null
@@ -237,7 +227,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -245,7 +235,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: colorScheme.onPrimary,
                   ),
                 ),
               ),
@@ -259,7 +249,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: colorScheme.onSurface,
               ),
             ),
             SizedBox(height: 12),
@@ -294,13 +284,10 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               child: ElevatedButton(
                 onPressed: _isGenerating ? null : _generateQuiz,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  disabledBackgroundColor: Colors.grey.shade400,
                 ),
                 child:
                     _isGenerating
@@ -311,17 +298,14 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(
-                                color: Colors.white,
+                                color: colorScheme.onPrimary,
                                 strokeWidth: 2,
                               ),
                             ),
                             SizedBox(width: 12),
                             Text(
                               'AI가 문제를 생성하는 중...',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
+                              style: TextStyle(fontSize: 16),
                             ),
                           ],
                         )
@@ -330,7 +314,6 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
                           ),
                         ),
               ),
@@ -343,7 +326,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
                   _numQuestions <= 10
                       ? '⏳ 1-2분 정도 소요될 수 있습니다'
                       : '⏳ 3-5분 정도 소요될 수 있습니다 (문제 수: $_numQuestions개)',
-                  style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+                  style: TextStyle(fontSize: 14, color: colorScheme.secondary),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -355,6 +338,8 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
   }
 
   Widget _buildTypeButton(String label, String value, IconData icon) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final isSelected = _questionTypes == value;
 
     return InkWell(
@@ -369,15 +354,15 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.black : Colors.white,
-          border: Border.all(color: Colors.black, width: 2),
+          color: isSelected ? colorScheme.primary : colorScheme.surface,
+          border: Border.all(color: colorScheme.primary, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
           children: [
             Icon(
               icon,
-              color: isSelected ? Colors.white : Colors.black,
+              color: isSelected ? colorScheme.onPrimary : colorScheme.primary,
               size: 24,
             ),
             SizedBox(height: 4),
@@ -386,7 +371,7 @@ class _AIQuizGenerateScreenState extends State<AIQuizGenerateScreen> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: isSelected ? Colors.white : Colors.black,
+                color: isSelected ? colorScheme.onPrimary : colorScheme.primary,
               ),
             ),
           ],

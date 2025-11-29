@@ -106,8 +106,9 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
   }
 
   void _editQuestion(int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final question = _questions[index];
-    // [수정] .toString() 추가로 안전하게 텍스트 변환
     final questionController = TextEditingController(
       text: question['question_text']?.toString() ?? '',
     );
@@ -116,35 +117,35 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
       context: context,
       builder:
           (context) => AlertDialog(
-            backgroundColor: Colors.white,
+            backgroundColor: colorScheme.surface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
             title: Text(
               '문제 수정',
               style: TextStyle(
-                color: Colors.black,
+                color: colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
               ),
             ),
             content: TextField(
               controller: questionController,
               maxLines: 3,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: colorScheme.onSurface),
               decoration: InputDecoration(
                 labelText: '문제',
-                labelStyle: TextStyle(color: Colors.grey.shade600),
+                labelStyle: TextStyle(color: colorScheme.secondary),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade400),
+                  borderSide: BorderSide(color: colorScheme.outline),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade400),
+                  borderSide: BorderSide(color: colorScheme.outline),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.black, width: 2),
+                  borderSide: BorderSide(color: colorScheme.primary, width: 2),
                 ),
               ),
             ),
@@ -154,7 +155,7 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 child: Text(
                   '취소',
                   style: TextStyle(
-                    color: Colors.grey.shade700,
+                    color: colorScheme.secondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -169,14 +170,14 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('문제가 수정되었습니다'),
-                      backgroundColor: Colors.black,
+                      backgroundColor: colorScheme.primary,
                     ),
                   );
                 },
                 child: Text(
                   '저장',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -188,12 +189,13 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text('퀴즈 미리보기', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 16),
@@ -201,13 +203,13 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '${_questions.length}개 문제',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: colorScheme.onPrimaryContainer,
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                   ),
@@ -222,40 +224,40 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
           // 퀴즈 이름 입력
           Container(
             padding: EdgeInsets.all(16),
-            color: Colors.white,
+            color: colorScheme.surface,
             child: TextField(
               controller: _quizNameController,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black,
+                color: colorScheme.onSurface,
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
                 labelText: '퀴즈 이름',
                 labelStyle: TextStyle(
-                  color: Colors.grey.shade600,
+                  color: colorScheme.secondary,
                   fontSize: 16,
                 ),
-                prefixIcon: Icon(Icons.edit, color: Colors.black),
+                prefixIcon: Icon(Icons.edit, color: colorScheme.primary),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
+                  borderSide: BorderSide(color: colorScheme.outline),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300),
+                  borderSide: BorderSide(color: colorScheme.outline),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.black, width: 2),
+                  borderSide: BorderSide(color: colorScheme.primary, width: 2),
                 ),
                 filled: true,
-                fillColor: Colors.grey.shade50,
+                fillColor: theme.scaffoldBackgroundColor,
               ),
             ),
           ),
 
-          Divider(height: 1, color: Colors.grey.shade300),
+          Divider(height: 1, color: colorScheme.outline),
 
           // 문제 목록
           Expanded(
@@ -268,14 +270,14 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                           Icon(
                             Icons.quiz_outlined,
                             size: 64,
-                            color: Colors.grey.shade400,
+                            color: colorScheme.outline,
                           ),
                           SizedBox(height: 16),
                           Text(
                             '문제가 없습니다',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.grey.shade600,
+                              color: colorScheme.secondary,
                             ),
                           ),
                         ],
@@ -295,10 +297,10 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: colorScheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
+              color: colorScheme.shadow.withValues(alpha: 0.1),
               offset: Offset(0, -2),
               blurRadius: 4,
             ),
@@ -311,8 +313,6 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 child: OutlinedButton(
                   onPressed: () => Navigator.pop(context),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    side: BorderSide(color: Colors.black, width: 2),
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -330,13 +330,10 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 child: ElevatedButton(
                   onPressed: _isSaving || _questions.isEmpty ? null : _saveQuiz,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    disabledBackgroundColor: Colors.grey.shade400,
                   ),
                   child:
                       _isSaving
@@ -344,7 +341,7 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(
-                              color: Colors.white,
+                              color: colorScheme.onPrimary,
                               strokeWidth: 2,
                             ),
                           )
@@ -365,17 +362,19 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
   }
 
   Widget _buildQuestionCard(dynamic question, int index) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final questionType = question['question_type'];
     final isMultipleChoice = questionType == 'multiple_choice';
 
     return Card(
       margin: EdgeInsets.only(bottom: 16),
-      color: Colors.white,
+      color: colorScheme.surface,
       elevation: 2,
-      shadowColor: Colors.black.withValues(alpha: 0.1),
+      shadowColor: colorScheme.shadow.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade200, width: 1),
+        side: BorderSide(color: colorScheme.outline, width: 1),
       ),
       child: Padding(
         padding: EdgeInsets.all(16),
@@ -388,13 +387,13 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     '문제 ${index + 1}',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -404,13 +403,13 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade400),
+                    border: Border.all(color: colorScheme.outline),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     isMultipleChoice ? '4지선다' : '서술형',
                     style: TextStyle(
-                      color: Colors.grey.shade700,
+                      color: colorScheme.secondary,
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
                     ),
@@ -419,7 +418,7 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 Spacer(),
                 IconButton(
                   icon: Icon(Icons.edit_outlined, size: 20),
-                  color: Colors.grey.shade700,
+                  color: colorScheme.secondary,
                   onPressed: () => _editQuestion(index),
                   padding: EdgeInsets.all(4),
                   constraints: BoxConstraints(),
@@ -427,7 +426,7 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                 SizedBox(width: 4),
                 IconButton(
                   icon: Icon(Icons.delete_outline, size: 20),
-                  color: Colors.grey.shade700,
+                  color: colorScheme.secondary,
                   onPressed: () => _deleteQuestion(index),
                   padding: EdgeInsets.all(4),
                   constraints: BoxConstraints(),
@@ -437,13 +436,13 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
 
             SizedBox(height: 12),
 
-            // [수정] 문제 내용 (안전하게 String 변환)
+            // 문제 내용
             Text(
               question['question_text']?.toString() ?? '',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: colorScheme.onSurface,
                 height: 1.4,
               ),
             ),
@@ -463,10 +462,10 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                   margin: EdgeInsets.only(bottom: 8),
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: isCorrect ? Colors.black : Colors.grey.shade100,
+                    color: isCorrect ? colorScheme.primary : colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: isCorrect ? Colors.black : Colors.grey.shade300,
+                      color: isCorrect ? colorScheme.primary : colorScheme.outline,
                       width: isCorrect ? 2 : 1,
                     ),
                   ),
@@ -476,11 +475,10 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                         width: 24,
                         height: 24,
                         decoration: BoxDecoration(
-                          color: isCorrect ? Colors.white : Colors.white,
+                          color: isCorrect ? colorScheme.onPrimary : colorScheme.surface,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color:
-                                isCorrect ? Colors.white : Colors.grey.shade400,
+                            color: isCorrect ? colorScheme.onPrimary : colorScheme.outline,
                             width: 2,
                           ),
                         ),
@@ -490,29 +488,25 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color:
-                                  isCorrect
-                                      ? Colors.black
-                                      : Colors.grey.shade700,
+                              color: isCorrect ? colorScheme.primary : colorScheme.secondary,
                             ),
                           ),
                         ),
                       ),
                       SizedBox(width: 12),
                       Expanded(
-                        // [수정] 보기 내용 (안전하게 String 변환)
                         child: Text(
                           answer['answer_text']?.toString() ?? '',
                           style: TextStyle(
                             fontSize: 14,
-                            color: isCorrect ? Colors.white : Colors.black,
+                            color: isCorrect ? colorScheme.onPrimary : colorScheme.onSurface,
                             fontWeight:
                                 isCorrect ? FontWeight.w600 : FontWeight.normal,
                           ),
                         ),
                       ),
                       if (isCorrect)
-                        Icon(Icons.check_circle, color: Colors.white, size: 20),
+                        Icon(Icons.check_circle, color: colorScheme.onPrimary, size: 20),
                     ],
                   ),
                 );
@@ -521,21 +515,20 @@ class _AIQuizPreviewScreenState extends State<AIQuizPreviewScreen> {
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.black, width: 2),
+                  border: Border.all(color: colorScheme.primary, width: 2),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.check_circle, color: Colors.white, size: 20),
+                    Icon(Icons.check_circle, color: colorScheme.onPrimary, size: 20),
                     SizedBox(width: 12),
                     Expanded(
-                      // [수정] 서술형 정답 (안전하게 String 변환)
                       child: Text(
                         question['correct_answer']?.toString() ?? '',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white,
+                          color: colorScheme.onPrimary,
                           fontWeight: FontWeight.w600,
                         ),
                       ),

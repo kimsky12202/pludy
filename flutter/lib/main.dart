@@ -35,13 +35,16 @@ class MyApp extends StatelessWidget {
 
               colorScheme: ColorScheme.light(
                 primary: Colors.black,
-                secondary: Colors.grey.shade800,
+                secondary: Colors.grey.shade600,
                 surface: Colors.white,
                 error: Colors.redAccent,
                 onPrimary: Colors.white,
                 onSecondary: Colors.white,
                 onSurface: Colors.black,
                 onError: Colors.white,
+                outline: Colors.grey.shade400,
+                primaryContainer: Colors.grey.shade100,
+                onPrimaryContainer: Colors.black,
               ),
 
               appBarTheme: AppBarTheme(
@@ -113,6 +116,9 @@ class MyApp extends StatelessWidget {
                 onSecondary: Colors.black,
                 onSurface: Colors.white,
                 onError: Colors.black,
+                outline: Colors.grey.shade600,
+                primaryContainer: Colors.grey.shade700,
+                onPrimaryContainer: Colors.white,
               ),
 
               appBarTheme: AppBarTheme(
